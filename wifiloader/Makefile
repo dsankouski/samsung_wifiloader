@@ -1,16 +1,10 @@
-ifeq ($(BOARD_HAVE_SAMSUNG_WIFI),true)
-
 LOCAL_PATH := $(call my-dir)
-include $(CLEAR_VARS)
 
 LOCAL_SRC_FILES := \
     wifiloader.c
 
 LOCAL_SHARED_LIBRARIES := \
     libcutils liblog libutils
-
-LOCAL_C_INCLUDES := \
-	system/core/include
 
 ifneq ($(WIFI_DRIVER_MODULE_NAME),)
 LOCAL_CFLAGS += -DWIFI_DRIVER_MODULE_NAME=\"$(WIFI_DRIVER_MODULE_NAME)\"
@@ -25,8 +19,6 @@ LOCAL_CFLAGS += -DWIFI_DRIVER_FW_PATH_PARAM=\"$(WIFI_DRIVER_FW_PATH_PARAM)\"
 endif
 
 LOCAL_MODULE := wifiloader
-LOCAL_MODULE_TAGS := optional
 
-include $(BUILD_EXECUTABLE)
-
-endif
+all:
+    gcc -g -wall $LOCAL_CFLAGS -o wifiloader $LOCAL_SRC_FILES libutil.so liblog.so libcutil.so
